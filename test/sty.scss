@@ -1,0 +1,129 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    place-content: center;
+    gap: 1em;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+    font-family: system-ui, sans-serif;
+}
+
+section {
+    width: clamp(22rem, 75dvw, 45rem);
+    width: clamp(22rem, 75vw, 45rem);
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    background: #d1bde6;
+    background-image: linear-gradient(335deg, #a57dcf, transparent);
+    padding: 1em;
+    border-radius: .5em;
+}
+
+section.create>div {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: .5em;
+}
+
+section.create>div:first-of-type label {
+    justify-self: end;
+}
+
+section.preview>div {
+    display: grid;
+    grid-template-columns: 6ch auto;
+    align-items: center;
+    gap: .5em;
+}
+
+section.preview>div>:first-child {
+    justify-self: end;
+    font-style: italic;
+    font-size: .875em;
+}
+
+button {
+    max-width: fit-content;
+    transition: color 250ms linear;
+}
+
+button,
+input {
+    padding: .25em .5em;
+    font-size: inherit;
+}
+
+svg {
+    display: block;
+    --size: 1.5rem;
+    width: var(--size);
+    height: var(--size);
+    position: relative;
+    shape-rendering: geometricprecision;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+.svg-erase {
+    fill: #3339;
+    --size: .875em;
+    align-self: center;
+    justify-self: end;
+    margin-inline-end: .25em;
+    opacity: 0;
+    transition: opacity 250ms linear;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+input,
+.svg-erase {
+    grid-area: 1/1;
+}
+
+label[for="email"] {
+    display: grid;
+}
+
+.preview {
+    display: none;
+}
+
+pre {
+    font-family: ui-monospace, monospace;
+    font-size: .75em;
+    padding: .5em;
+    border-radius: .25rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: #def110;
+    background: #2c3003;
+}
+
+.preview p{
+    padding: 0.5em 1em;
+    background: rgb(255 255 255 / 80%);
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+a.mailto {
+    display: inline-block;
+    vertical-align: text-bottom;
+    max-width: 30ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.copied {
+    color: #83be0e
+}

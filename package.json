@@ -1,0 +1,24 @@
+{
+  "name": "email-obfuscation",
+  "version": "0.1.0",
+  "description": "Hides email addresses in a hex string formed by XORing the address with a one-byte key. Functions and the decryption key are stored in an external JS file, making it difficult for spam bots to harvest.",
+  "source": "./src/obfuscation.ts",
+  "main": "./dist/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "parcel watch",
+    "build": "parcel build",
+    "clean": "rm -rf dist && rm -rf .parcel-cache && echo 'Done.'",
+    "test": "parcel ./test/index.html"
+  },
+  "keywords": [
+    "email",
+    "obfuscation"
+  ],
+  "author": "Alain Gourvès",
+  "license": "MIT",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.10.3",
+    "parcel": "latest"
+  }
+}
