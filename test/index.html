@@ -14,7 +14,7 @@
         <div>
             <label for="key">
                 Encryption key <i>(0-255)</i>
-                <input type="number" id="key" min="0" max="255" value="42">
+                <input type="number" id="key" min="0" max="255" value="42" required>
             </label>
         </div>
         <div>
@@ -27,12 +27,12 @@
             <button id="obfuscate" disabled>Obfuscate</button>
         </div>
         <div>
-            <input type="text" id="encoded-address" placeholder="Obfuscated address" disabled>
-            <button id="copy-btn" disabled>
-                <svg class="svg-icon">
+            <label for="encoded-address">
+                <input type="text" id="encoded-address" placeholder="Obfuscated address" disabled>
+                <svg class="svg-copy">
                     <use href="#copy" />
                 </svg>
-            </button>
+            </label>
         </div>
     </section>
 
@@ -46,7 +46,7 @@
             <div>Result</div>
             <p>Email: <a href="" class="mailto"></a></p>
         </div>
-        <button id="desobfuscate">Decode</button>
+        <div class="spacer"></div>
         <div>
             <div>Source</div>
             <pre></pre>
@@ -75,10 +75,13 @@
                 <path d="m5 13 5.5 6 8.5-14" fill="none" stroke="currentColor" stroke-linecap="round"
                     stroke-linejoin="round" stroke-width="2" />
             </symbol>
+            <symbol id="arrow" viewBox="0 0 40 40">
+                <path d="m39.56 8.94-12.38 2.06.36-10h-15.08l.36 10-12.38-2.06a2.27 2.27 0 0 0 -.44.32c6.13 6.51 19.4 28.22 20 28.22s13.87-21.7 20-28.22a2.27 2.27 0 0 0 -.44-.32z" />
+            </symbol>
         </defs>
     </svg>
 
-<script type="module" src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

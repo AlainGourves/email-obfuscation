@@ -6,18 +6,25 @@ const email = document.querySelector('#email');
 const key = document.querySelector('#key');
 const encodedAddress = document.querySelector('#encoded-address');
 const btnObfuscate = document.querySelector('#obfuscate');
-const btnDesobfuscate = document.querySelector('#desobfuscate');
-const btnCopy = document.querySelector('#copy-btn');
+const btnCopy = document.querySelector('.svg-copy');
 const btnErase = document.querySelector('.svg-erase');
 const links = document.querySelectorAll('.mailto');
 const pres = document.querySelectorAll('pre');
 
-const displayCode = (display, mail, encoded) => {
-    links.forEach(link => {
-        link.href = encoded;
-        link.textContent = encoded;
-    })
+const displayCode = (display, encoded) => {
+    links[0].textContent = encoded;
+    links[0].href = encoded;
     pres[0].textContent = links[0].outerHTML;
+    let mail = '';
+    if (encoded){
+        mail = obfu.decode(encoded);
+        btnCopy.classList.add('visible');
+    }else{
+        btnCopy.classList.remove('visible')
+    }
+    links[1].href = `mailto:${mail}`;
+    links[1].textContent = mail;
+    pres[1].textContent = links[1].outerHTML;
     document.querySelector('.preview').style.display = display;
 }
 
@@ -30,22 +37,9 @@ window.addEventListener('load', (ev) => {
             const encoded = obfu.encode(mail);
             encodedAddress.value = encoded;
             btnCopy.disabled = false;
-            btnDesobfuscate.disabled = false;
-            displayCode('flex', mail, encoded);
+            displayCode('flex', encoded);
         }
     });
-
-    btnDesobfuscate.addEventListener('click', (ev) => {
-        if (!btnDesobfuscate.disabled) {
-            const encodedMail = links[1].innerText;
-            const mail = obfu.decode(encodedMail);
-            links[1].href = `mailto:${mail}`;
-            links[1].textContent = mail;
-            btnDesobfuscate.disabled = true;
-            pres[1].textContent = links[1].outerHTML;
-
-        }
-    })
 
     btnCopy.addEventListener('click', async (ev) => {
         if (navigator.clipboard) {
@@ -76,13 +70,15 @@ window.addEventListener('load', (ev) => {
     email.addEventListener('change', (ev) => {
         const n = ev.target.value.length;
         btnObfuscate.disabled = !(n > 0);
-        btnErase.style.opacity = (n > 0) ? 1 : 0;
+        if (n>0) {
+            btnErase.classList.add('visible');
+        }else{
+            btnErase.classList.remove('visible');
+        }
         if (n === 0) {
             // reset
             encodedAddress.value = '';
-            btnCopy.disabled = true;
-            displayCode('none', '', '');
-            btnDesobfuscate.disabled = false;
+            displayCode('none', '');
         };
     });
 

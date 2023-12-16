@@ -1,9 +1,27 @@
 *,
 *::before,
 *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+:root {
+    // ----------------------------- Colors
+    --clr: hsl(209 60% 50%); // Primary color
+    --h: 209;
+    --s: 60%;
+    --l: 50%;
+    --clr-active: hsl(var(--h) var(--s) var(--l));
+    --clr-disabled-bdr: hsl(0 0% 50%);
+    --clr-disabled-bg: hsl(0 0% 85%);
+    --clr-invalid-bdr: hsl(14 100% 57%);
+    --clr-invalid-bg: hsl(45 100% 50%);
+
+    --clr-icons: #3339;
+
+    --trans-dur: 250ms;
 }
 
 body {
@@ -28,9 +46,9 @@ section {
     border-radius: .5em;
 }
 
-section.create>div {
+section.create>div:not(:last-of-type) {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: auto minmax(7rem, max-content);
     gap: .5em;
 }
 
@@ -43,23 +61,12 @@ section.preview>div {
     grid-template-columns: 6ch auto;
     align-items: center;
     gap: .5em;
-}
 
-section.preview>div>:first-child {
-    justify-self: end;
-    font-style: italic;
-    font-size: .875em;
-}
-
-button {
-    max-width: fit-content;
-    transition: color 250ms linear;
-}
-
-button,
-input {
-    padding: .25em .5em;
-    font-size: inherit;
+    &>:first-child {
+        justify-self: end;
+        font-style: italic;
+        font-size: .875em;
+    }
 }
 
 svg {
@@ -71,49 +78,81 @@ svg {
     shape-rendering: geometricprecision;
     fill: currentColor;
     pointer-events: none;
+    transition:
+        transform var(--trans-dur) ease-out,
+        background var(--trans-dur) linear,
+        opacity var(--trans-dur) linear,
+        fill var(--trans-dur) linear;
 }
 
-.svg-erase {
-    fill: #3339;
-    --size: .875em;
+.svg-erase,
+.svg-copy {
+    fill: var(--clr-icons);
     align-self: center;
     justify-self: end;
     margin-inline-end: .25em;
-    opacity: 0;
-    transition: opacity 250ms linear;
     pointer-events: auto;
     cursor: pointer;
+    opacity: 0;
+    transform: scale(0);
+
+    &.visible{
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    &:hover{
+        fill: var(--clr-active)
+    }
 }
 
-input,
 .svg-erase {
-    grid-area: 1/1;
+    --size: 1em;
 }
 
-label[for="email"] {
+.svg-copy {
+    --size: 2em;
+    background: hsl(0 0% 100% / 80%);
+    border-radius: 50%;
+
+    &.copied {
+        color: hsl(95 70% 40%);
+    }
+}
+
+input:placeholder-shown + .svg-copy {
+    background: hsl(0 0% 100% / 30%);
+}
+
+label[for="email"],
+label[for="encoded-address"] {
     display: grid;
+
+    &>* {
+        grid-area: 1/1;
+    }
 }
 
 .preview {
     display: none;
-}
 
-pre {
-    font-family: ui-monospace, monospace;
-    font-size: .75em;
-    padding: .5em;
-    border-radius: .25rem;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    color: #def110;
-    background: #2c3003;
-}
+    & pre {
+        font-family: ui-monospace, monospace;
+        font-size: .75em;
+        padding: .5em;
+        border-radius: .25rem;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        color: #def110;
+        background: #2c3003;
+    }
 
-.preview p{
-    padding: 0.5em 1em;
-    background: rgb(255 255 255 / 80%);
-    border-radius: 0.25rem;
-    text-align: center;
+    & p {
+        padding: 0.5em 1em;
+        background: rgb(255 255 255 / 80%);
+        border-radius: 0.25rem;
+        text-align: center;
+    }
 }
 
 a.mailto {
@@ -124,6 +163,100 @@ a.mailto {
     text-overflow: ellipsis;
 }
 
-.copied {
-    color: #83be0e
+
+.spacer {
+    --bg-size: 4rem;
+    height: 6rem;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%233282cc' d='m39.56 8.94-12.38 2.06.36-10h-15.08l.36 10-12.38-2.06a2.27 2.27 0 0 0 -.44.32c6.13 6.51 19.4 28.22 20 28.22s13.87-21.7 20-28.22a2.27 2.27 0 0 0 -.44-.32z'/%3E%3C/svg%3E") no-repeat calc(50% + (var(--bg-size) / 2)) 50% / var(--bg-size);
+    mix-blend-mode: luminosity;
+}
+
+
+
+button,
+input {
+    padding: .5em .75em;
+    border-radius: .4em;
+    line-height: 1.25;
+    font-size: inherit;
+}
+
+// Input text
+input {
+    border: 1px solid var(--clr-active);
+    transition: background-color var(--trans-dur) linear;
+
+    // Remove arrows on input[type=number]
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    &[type=number] {
+        text-align: center;
+        -moz-appearance: textfield; // Firefox Remove arrows on input
+        appearance: textfield;
+    }
+
+    &:invalid {
+        border-color: var(--clr-invalid-bdr);
+        box-shadow: 0 0 0 2px var(--clr-invalid-bdr);
+        background: var(--clr-invalid-bg);
+    }
+
+
+    &::placeholder {
+        font-style: italic;
+    }
+}
+
+// Buttons --------------
+button {
+    max-width: fit-content;
+    // create small vertical space
+    margin-block: 2px;
+    // inivisible border
+    border: solid 2px transparent;
+    padding: .5em 1em;
+    color: #fff;
+    background-color: var(--clr-active);
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    box-shadow:
+        0 3px 1px -2px rgba(0, 0, 0, 0.2),
+        0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    transition:
+        transform var(--trans-dur) ease-out,
+        color var(--trans-dur) linear,
+        background-color var(--trans-dur) linear;
+
+    &:active {
+        transform: translateY(1px);
+        filter: saturate(150%);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--clr-disabled-bg);
+        border-color: var(--clr-disabled-bdr);
+        color: var(--clr-disabled-bdr);
+        box-shadow: none;
+    }
+
+    @media (hover:hover) {
+
+        // CSS hover style remains after button click in iOS devices
+        // https://stackoverflow.com/questions/47507495/css-hover-style-remains-after-button-click-in-ios-devices
+        &:not(:disabled):hover {
+            color: var(--clr-active);
+            background-color: #fff;
+            border-color: var(--clr-active);
+        }
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 2px #fff;
+        outline-offset: 5px;
+    }
+
 }
