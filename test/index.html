@@ -11,50 +11,39 @@
 <body>
     <section class="create">
         <h2>Encode email address</h2>
-        <div>
-            <label for="key">
-                Encryption key <i>(0-255)</i>
-                <input type="number" id="key" min="0" max="255" value="42" required>
-            </label>
-        </div>
-        <div>
-            <label for="email">
-                <input type="email" id="email" placeholder="email address">
-                <svg class="svg-erase">
-                    <use href="#close" />
-                </svg>
-            </label>
-            <button id="obfuscate" disabled>Obfuscate</button>
-        </div>
-        <div>
-            <label for="encoded-address">
-                <input type="text" id="encoded-address" placeholder="Obfuscated address" disabled>
-                <svg class="svg-copy">
-                    <use href="#copy" />
-                </svg>
-            </label>
-        </div>
+        <label for="key">
+            Encryption key <i>(0-255)</i>
+            <input type="number" id="key" min="0" max="255" value="42" required>
+        </label>
+        <label for="email">
+            <input type="email" id="email" placeholder="email address">
+            <svg class="svg-erase">
+                <use href="#close" />
+            </svg>
+        </label>
+        <button id="obfuscate" disabled>Obfuscate</button>
+        <label for="encoded-address">
+            <input type="text" id="encoded-address" placeholder="Obfuscated address" disabled>
+            <svg class="svg-copy">
+                <use href="#copy" />
+            </svg>
+        </label>
     </section>
 
     <section class="preview">
         <h2>Illustration</h2>
-        <div>
-            <div>Source</div>
-            <pre></pre>
-        </div>
-        <div>
-            <div>Result</div>
-            <p>Email: <a href="" class="mailto"></a></p>
-        </div>
+
+        <div class="legend">Source</div>
+        <pre></pre>
+        <div class="legend">Result</div>
+        <p>Email: <a href="" class="mailto"></a></p>
+
         <div class="spacer"></div>
-        <div>
-            <div>Source</div>
-            <pre></pre>
-        </div>
-        <div>
-            <div>Result</div>
-            <p>Email: <a href="" class="mailto"></a></p>
-        </div>
+
+        <div class="legend">Source</div>
+        <pre></pre>
+        <div class="legend">Result</div>
+        <p>Email: <a href="" class="mailto"></a></p>
     </section>
 
 

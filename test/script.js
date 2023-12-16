@@ -11,7 +11,7 @@ const btnErase = document.querySelector('.svg-erase');
 const links = document.querySelectorAll('.mailto');
 const pres = document.querySelectorAll('pre');
 
-const displayCode = (display, encoded) => {
+const displayCode = (encoded) => {
     links[0].textContent = encoded;
     links[0].href = encoded;
     pres[0].textContent = links[0].outerHTML;
@@ -25,7 +25,6 @@ const displayCode = (display, encoded) => {
     links[1].href = `mailto:${mail}`;
     links[1].textContent = mail;
     pres[1].textContent = links[1].outerHTML;
-    document.querySelector('.preview').style.display = display;
 }
 
 window.addEventListener('load', (ev) => {
@@ -37,7 +36,7 @@ window.addEventListener('load', (ev) => {
             const encoded = obfu.encode(mail);
             encodedAddress.value = encoded;
             btnCopy.disabled = false;
-            displayCode('flex', encoded);
+            displayCode(encoded);
         }
     });
 
@@ -78,7 +77,7 @@ window.addEventListener('load', (ev) => {
         if (n === 0) {
             // reset
             encodedAddress.value = '';
-            displayCode('none', '');
+            displayCode('');
         };
     });
 
